@@ -1,0 +1,70 @@
+{
+  "name": "auto-grader-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.ts",
+  "prisma": {
+    "seed": "ts-node src/seed/Seeder.ts"
+  },
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "dev": "nodemon -L src/index.ts",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix --max-warnings 0",
+    "deploy:dev": "pm2 startOrRestart ecosystem.config.js --env development --update-env --log-date-format 'DD-MM HH:mm:ss.SSS'",
+    "deploy:prod": "pm2 startOrRestart ecosystem.config.js --env production --update-env --log-date-format 'DD-MM HH:mm:ss.SSS'",
+    "pre-migrate:dev": "dotenv -e .env.development -- npx prisma db pull && npx prisma generate",
+    "pre-migrate:prod": "dotenv -e .env.production -- npx prisma db pull && npx prisma generate",
+    "migrate:dev": "dotenv -e .env.development -- npx prisma db push",
+    "migrate:prod": "dotenv -e .env.production -- npx prisma db push",
+    "seed:prod": "dotenv -e .env.production -- src/seed/Seeder.ts",
+    "seed:dev": "dotenv -e .env -- ts-node src/seed/Seeder.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sentry:sourcemaps": "sentry-cli sourcemaps inject --org institut-teknologi-sepuluh--up --project node-express ./dist && sentry-cli sourcemaps upload --org institut-teknologi-sepuluh--up --project node-express ./dist"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "npm run lint",
+      "eslint --cache --fix"
+    ]
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/express-session": "^1.18.0",
+    "@types/multer": "^1.4.12",
+    "@types/node": "^20.10.6",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "argon2": "^0.41.1",
+    "connect-redis": "^7.1.1",
+    "cookie-parser": "^1.4.6",
+    "cypress": "^13.14.2",
+    "eslint": "^8.56.0",
+    "express-session": "^1.18.0",
+    "fs": "^0.0.1-security",
+    "ioredis": "^5.4.1",
+    "jest": "^29.7.0",
+    "multer": "^1.4.5-lts.1",
+    "prisma": "^5.7.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "unzipper": "^0.12.3"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.7.1",
+    "@sentry/cli": "^2.24.1",
+    "@sentry/node": "^7.92.0",
+    "@sentry/profiling-node": "^1.3.2",
+    "@types/ioredis": "^5.0.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.2",
+    "envalid": "^8.0.0",
+    "express": "^4.18.2",
+    "http-status-codes": "^2.3.0",
+    "husky": "^8.0.3",
+    "joi": "^17.12.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

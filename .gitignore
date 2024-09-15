@@ -1,0 +1,14 @@
+node_modules
+uploads
+.env
+.dev.env
+dist
+.env.development
+.env.production
+
+.yarn*
+.pnp*
+yarn-error.log
+yarn.lock
+# Sentry Config File
+.sentryclirc
