@@ -90,11 +90,11 @@ export class SubmissionService {
           "utf8"
         );
 
-        const failingTestsMatch = cypressOutput.match(/Failing:\s+(\d+)/);
+        const totalTestsMatch = cypressOutput.match(/Tests:\s+(\d+)/);
         const passingTestsMatch = cypressOutput.match(/Passing:\s+(\d+)/);
 
-        const failingTests = failingTestsMatch
-          ? parseInt(failingTestsMatch[1], 10)
+        const totalTests = totalTestsMatch
+          ? parseInt(totalTestsMatch[1], 10)
           : 0;
         const passingTests = passingTestsMatch
           ? parseInt(passingTestsMatch[1], 10)
@@ -102,7 +102,7 @@ export class SubmissionService {
         const update = this.submissionRepository.updateGradeById(
           submissionData.id,
           passingTests,
-          failingTests + passingTests
+          totalTests,
         );
         return update;
       } else if (type == 2) {

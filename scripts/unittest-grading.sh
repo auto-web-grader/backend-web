@@ -27,3 +27,5 @@ file_path="$upload_dir/$file_name"
 output_path="$upload_dir/output.txt"
 
 npx jest $test_path $file_path --no-color 2> $output_path
+
+exit 0
