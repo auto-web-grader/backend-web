@@ -106,7 +106,7 @@ export class SubmissionService {
         );
         return update;
       } else if (type == 2) {
-        const testsPath = `${cwd}/tests/reverseString.js`;
+        const testsPath = `${cwd}/tests/reverseString.test.js`;
         const scripts = `${cwd}/scripts/unittest-grading.sh ${testsPath} ${submissionData.path}`;
         const execPromise = promisify(exec);
         await execPromise(scripts);

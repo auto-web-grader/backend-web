@@ -8,6 +8,9 @@
       "outDir": "dist",
       "inlineSources": true,
 
+      // For running the test files
+      // "allowJs": true,
+
       // Set `sourceRoot` to  "/" to strip the build path prefix
       // from generated source code references.
       // This improves issue grouping in Sentry.

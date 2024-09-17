@@ -18,7 +18,7 @@
     "migrate:prod": "dotenv -e .env.production -- npx prisma db push",
     "seed:prod": "dotenv -e .env.production -- src/seed/Seeder.ts",
     "seed:dev": "dotenv -e .env -- ts-node src/seed/Seeder.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "sentry:sourcemaps": "sentry-cli sourcemaps inject --org institut-teknologi-sepuluh--up --project node-express ./dist && sentry-cli sourcemaps upload --org institut-teknologi-sepuluh--up --project node-express ./dist"
   },
   "lint-staged": {
@@ -40,6 +40,7 @@
     "argon2": "^0.41.1",
     "connect-redis": "^7.1.1",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "cypress": "^13.14.2",
     "eslint": "^8.56.0",
     "express-session": "^1.18.0",
@@ -59,7 +60,6 @@
     "@sentry/profiling-node": "^1.3.2",
     "@types/ioredis": "^5.0.0",
     "bcrypt": "^5.1.1",
-    "cors": "^2.8.5",
     "dotenv": "^16.3.2",
     "envalid": "^8.0.0",
     "express": "^4.18.2",
