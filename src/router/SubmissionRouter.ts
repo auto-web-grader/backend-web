@@ -10,14 +10,18 @@ const submissionRepository = new SubmissionRepository();
 const submissionService = new SubmissionService(submissionRepository);
 const submissionController = new SubmissionController(submissionService);
 
-router.get("/", authMiddleware, (req, res) =>
+router.get("/", authMiddleware(["student"]), (req, res) =>
   submissionController.getUserSubmission(req, res)
 );
 
-router.post("/upload", authMiddleware, upload.single("file"), (req, res) =>
-  submissionController.post(req, res)
+router.get("/all", authMiddleware(["admin"]), (req, res) =>
+  submissionController.getAllSubmission(req, res)
+)
+
+router.post("/upload", authMiddleware(["student"]), upload.single("file"), (req, res) =>
+  submissionController.uploadSubmission(req, res)
 );
-router.post("/grade/:id", authMiddleware, (req, res) =>
+router.post("/grade/:id", authMiddleware(["admin"]), (req, res) =>
   submissionController.gradeSubmission(req, res)
 );
 

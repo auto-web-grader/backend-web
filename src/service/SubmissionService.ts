@@ -61,6 +61,20 @@ export class SubmissionService {
       );
     }
   }
+
+  async getAllSubmission() {
+    try {
+      const submissions = await this.submissionRepository.getAllSubmission();
+      return submissions;
+    } catch (error) {
+      throw new CustomError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        "Failed to load User Submission",
+        error
+      );
+    }
+  }
+
   async gradeSubmission(submissionId: string, userId: number) {
     try {
       const submissionData = await this.submissionRepository.getSubmissionById(

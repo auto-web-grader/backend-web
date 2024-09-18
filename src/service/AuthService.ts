@@ -23,7 +23,11 @@ export class AuthService {
         throw new CustomError(StatusCodes.BAD_REQUEST, "Invalid Credentials");
       }
 
-      return { userId: user.id };
+      return { 
+        userId: user.id,
+        role: user.role,
+       };
+
     } catch (error) {
       throw new CustomError(
         error.code ?? StatusCodes.INTERNAL_SERVER_ERROR,

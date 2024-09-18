@@ -17,7 +17,7 @@ export class SubmissionController {
   constructor(submissionService: SubmissionService) {
     this.submissionService = submissionService;
   }
-  async post(req: Request<any, any, FileRequest>, res: Response) {
+  async uploadSubmission(req: Request<any, any, FileRequest>, res: Response) {
     try {
       const file = req.file;
       const { type } = req.body;
@@ -47,6 +47,38 @@ export class SubmissionController {
       const data = await this.submissionService.getUserSubmission(
         Number(userId)
       );
+      const responseData: UserSubmissionResponse[] = [];
+      data.map((key) => {
+        const user: AuthResponse = {
+          id: key.author.id,
+          name: key.author.name,
+          email: key.author.email,
+        };
+        responseData.push({
+          id: key.id,
+          submitTime: key.submitTime,
+          correctAnswer: key.correctTests,
+          totalAnswer: key.totalTests,
+          type: key.type,
+          user: user,
+        });
+      });
+      responseSuccess(
+        res,
+        StatusCodes.OK,
+        true,
+        "Successfully Fetch Data",
+        responseData
+      );
+    } catch (error) {
+      responseError(res, false, error);
+    }
+  }
+
+  async getAllSubmission(req: Request, res: Response) {
+    try {
+      const userId = await getSessionUserId(req);
+      const data = await this.submissionService.getAllSubmission();
       const responseData: UserSubmissionResponse[] = [];
       data.map((key) => {
         const user: AuthResponse = {

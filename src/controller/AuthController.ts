@@ -40,6 +40,7 @@ export class AuthController {
 
       if (result) {
         (req.session as SessionData).userId = result.userId.toString();
+        (req.session as SessionData).role = result.role.toString();
         responseSuccessWithoutData(
           res,
           StatusCodes.OK,

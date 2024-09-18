@@ -39,6 +39,14 @@ export class SubmissionRepository {
     });
   }
 
+  async getAllSubmission() {
+    return db.submission.findMany(({
+      include: {
+        author: true,
+      }
+    }));
+  }
+
   async updateGradeById(id: number, correctTest: number, totalTest: number) {
     return db.submission.update({
       where: {
