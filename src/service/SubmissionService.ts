@@ -6,6 +6,8 @@ import { CustomError } from "../utils/ErrorHandling";
 import { StatusCodes } from "http-status-codes";
 import { promisify } from "util";
 import { exec } from "child_process";
+import axios from "axios";
+import FormData from 'form-data'
 
 export class SubmissionService {
   private submissionRepository: SubmissionRepository;
@@ -157,5 +159,36 @@ export class SubmissionService {
         error
       );
     }
+  }
+
+  async gradeSubmissionStatistic(form: FormData, userId: number) {
+    try {
+      const response = await axios.post('http://127.0.0.1:5000/api/submit-answers', form, {
+        headers: {
+          ...form.getHeaders(),
+        }
+      })
+
+      const submissionData = {
+        path: "-",
+        type: "3",
+        authorId: userId,
+      };
+
+      const data = this.submissionRepository.createSubmission(
+        submissionData,
+      )
+
+      return data;
+    } catch (error) {
+      throw new CustomError(
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        error.message ?? "Grading server error",
+        error
+      );
+    }
+
+
+
   }
 }

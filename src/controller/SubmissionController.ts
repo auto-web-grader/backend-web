@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { SubmissionService } from "../service/SubmissionService";
-import { FileRequest, UserSubmissionResponse } from "../model/SubmissionModel";
+import { FileRequest, GradeStatisticRequest, UserSubmissionResponse } from "../model/SubmissionModel";
 import { getSessionUserId } from "../utils/GetUserSession";
 import {
   responseError,
@@ -10,6 +10,8 @@ import {
 import { StatusCodes } from "http-status-codes";
 import { AuthResponse } from "../model/AuthModel";
 import { CustomError } from "../utils/ErrorHandling";
+import axios from "axios";
+import FormData from 'form-data'
 
 export class SubmissionController {
   private submissionService: SubmissionService;
@@ -21,7 +23,7 @@ export class SubmissionController {
     try {
       const file = req.file;
       const { type } = req.body;
-      console.log(file);
+      // console.log(file);
       if (!file) {
         throw new CustomError(StatusCodes.BAD_REQUEST, "No file uploaded!");
       }
@@ -125,5 +127,43 @@ export class SubmissionController {
     } catch (error) {
       responseError(res, false, error);
     }
+  }
+
+  async gradeSubmissionStatistic(req: Request<any, any, GradeStatisticRequest>, res: Response) {
+      try {
+        if (!req.file) {
+          throw new CustomError(StatusCodes.BAD_REQUEST, "No file uploaded!");
+        }
+
+        const form = new FormData();
+
+        form.append("scatter", req.file.buffer, {
+            filename: req.file.originalname, 
+            contentType: req.file.mimetype,
+        });
+        
+        form.append("answer1", req.body.answer1);
+        form.append("answer2", req.body.answer2);
+        form.append("answer3", req.body.answer3);
+        form.append("answer4", req.body.answer4);
+        form.append("answer5", req.body.answer5);
+        form.append("answer7", req.body.answer7);
+        form.append("answer8", req.body.answer8);
+
+        const userId = await getSessionUserId(req);
+
+        const data = await this.submissionService.gradeSubmissionStatistic(form, Number(userId));
+
+        responseSuccess(
+          res,
+          StatusCodes.OK,
+          true,
+          "Submission graded successfully",
+          data,
+        );
+      } catch (error) {
+        responseError(res, false, error);
+      }
+    
   }
 }

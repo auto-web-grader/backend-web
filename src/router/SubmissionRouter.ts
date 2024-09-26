@@ -4,6 +4,7 @@ import { SubmissionController } from "../controller/SubmissionController";
 import { SubmissionService } from "../service/SubmissionService";
 import { SubmissionRepository } from "../repository/SubmissionRepository";
 import authMiddleware from "../middleware/AuthMiddleware";
+import uploadTemp from "../config/UploadTempConfig";
 
 const router = express.Router();
 const submissionRepository = new SubmissionRepository();
@@ -21,8 +22,13 @@ router.get("/all", authMiddleware(["admin"]), (req, res) =>
 router.post("/upload", authMiddleware(["student"]), upload.single("file"), (req, res) =>
   submissionController.uploadSubmission(req, res)
 );
+
 router.post("/grade/:id", authMiddleware(["admin"]), (req, res) =>
   submissionController.gradeSubmission(req, res)
 );
+
+router.post("/gradeStatistic", uploadTemp.single("file"), (req, res) => {
+  submissionController.gradeSubmissionStatistic(req, res)
+});
 
 export default router;

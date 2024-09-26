@@ -1,3 +1,4 @@
+import { PROXY_AUTHENTICATION_REQUIRED } from "http-status-codes";
 import db from "../config/ConnectDb";
 
 export class SubmissionRepository {
@@ -5,15 +6,21 @@ export class SubmissionRepository {
     path: string;
     type: string;
     authorId: number;
+    correctTests?: number;
+    totalTests?: number;
   }) {
+    const submissionData: any = {
+      path: data.path,
+      type: data.type,
+      authorId: data.authorId,
+    };
+
+    if (data.correctTests && data.totalTests) {
+      submissionData.correctTests = data.correctTests;
+      submissionData.totalTests = data.totalTests;
+    }
     return db.submission.create({
-      data: {
-        path: data.path,
-        type: data.type,
-        author: {
-          connect: { id: data.authorId },
-        },
-      },
+      data: submissionData,
     });
   }
 
