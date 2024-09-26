@@ -173,6 +173,8 @@ export class SubmissionService {
         path: "-",
         type: "3",
         authorId: userId,
+        correctTests: response.data.score,
+        totalTests: 100,
       };
 
       const data = this.submissionRepository.createSubmission(

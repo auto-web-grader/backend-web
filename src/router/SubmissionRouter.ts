@@ -27,7 +27,7 @@ router.post("/grade/:id", authMiddleware(["admin"]), (req, res) =>
   submissionController.gradeSubmission(req, res)
 );
 
-router.post("/gradeStatistic", uploadTemp.single("file"), (req, res) => {
+router.post("/gradeStatistic", authMiddleware(["student"]), uploadTemp.single("file"), (req, res) => {
   submissionController.gradeSubmissionStatistic(req, res)
 });
 
