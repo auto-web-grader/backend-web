@@ -12,6 +12,8 @@ const authController = new AuthController(authService);
 router.post("/login", (req, res) => authController.login(req, res));
 router.post("/logout", (req, res) => authController.logout(req, res));
 router.post("/register", (req, res) => authController.register(req, res));
-// router.get("/me", authMiddleware, (req, res) => authController.getMe(req, res));
+router.get("/me", authMiddleware(["student", "admin"]), (req, res) =>
+  authController.getMe(req, res)
+);
 
 export default router;

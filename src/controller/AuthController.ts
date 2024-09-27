@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AuthService } from "../service/AuthService";
 import {
   AuthResponse,
+  AuthResponseWithRole,
   LoginRequest,
   RegisterRequest,
   SessionData,
@@ -97,10 +98,11 @@ export class AuthController {
     try {
       const userId = getSessionUserId(req);
       const user = await this.authService.getUserById(Number(userId));
-      const responseData: AuthResponse = {
+      const responseData: AuthResponseWithRole = {
         id: user.id,
         name: user.name,
         email: user.email,
+        role: user.role,
       };
       responseSuccess(
         res,
