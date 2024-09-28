@@ -132,7 +132,7 @@ export class SubmissionService {
           "utf8"
         );
 
-        const regex = /(\d+)\s+passed.*?(\d+)\s+total/;
+        const regex = /Tests:(\d+)\s+passed.*?(\d+)\s+total/;
 
         const match = testOutput.match(regex);
         const passedTests = match[1]
