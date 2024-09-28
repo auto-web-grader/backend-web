@@ -137,8 +137,11 @@ export class SubmissionService {
         const regexIsFailed = new RegExp("failed", 'i');
 
         const totalTestsMatch = testOutput.match(regexTotal);
+        console.log(totalTestsMatch)
         const valueMatch = testOutput.match(regexValue);
+        console.log(valueMatch)
         const isFailed =  testOutput.match(regexIsFailed);
+        console.log(isFailed)
         
         const totalTests = totalTestsMatch[1] 
         ? parseInt(totalTestsMatch[1])
@@ -149,7 +152,7 @@ export class SubmissionService {
 
         let passedTests = 0
 
-        if (isFailed[0]) {
+        if (isFailed !== null) {
           passedTests = totalTests - value;
         } else {
           passedTests = value;
