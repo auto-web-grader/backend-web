@@ -132,15 +132,28 @@ export class SubmissionService {
           "utf8"
         );
 
-        const regex = /Tests:(\d+)\s+passed.*?(\d+)\s+total/;
+        const regexTotal = /Tests:.*(\d+)\s+total/;
+        const regexValue = /Tests:\s+(\d+).*/;
+        const regexIsFailed = new RegExp("failed", 'i');
 
-        const match = testOutput.match(regex);
-        const passedTests = match[1]
-        ? parseInt(match[1])
+        const totalTestsMatch = testOutput.match(regexTotal);
+        const valueMatch = testOutput.match(regexValue);
+        const isFailed =  testOutput.match(regexIsFailed);
+        
+        const totalTests = totalTestsMatch[1] 
+        ? parseInt(totalTestsMatch[1])
         : null;
-        const totalTests = match[2] 
-        ? parseInt(match[2])
+        const value = valueMatch[1] 
+        ? parseInt(valueMatch[1])
         : null;
+
+        let passedTests = 0
+
+        if (isFailed[0]) {
+          passedTests = totalTests - value;
+        } else {
+          passedTests = value;
+        }
 
         const update = this.submissionRepository.updateGradeById(
           submissionData.id,
