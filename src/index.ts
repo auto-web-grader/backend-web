@@ -13,7 +13,7 @@ const sentry = initializeSentry(app);
 //cors handling
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://127.0.0.1:3000"], //can be added to fit the frontend request
+    origin: ["http://localhost:3000", "http://127.0.0.1:3000","http://localhost:1876", "http://127.0.0.1:1876"], //can be added to fit the frontend request
     credentials: true,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: ["Content-Type", "Authorization"],
